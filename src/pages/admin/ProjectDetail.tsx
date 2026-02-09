@@ -1,25 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import clsx from 'clsx'
 
 export function ProjectDetail() {
     const { id } = useParams()
-    const navigate = useNavigate()
     const [project, setProject] = useState<any>(null)
     const [expenses, setExpenses] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
-
-    async function handleDelete() {
-        if (!window.confirm('정말 삭제하시겠습니까? 관련 지출 내역도 모두 삭제될 수 있습니다.')) return
-
-        const { error } = await supabase.from('projects').delete().eq('id', id)
-        if (error) {
-            alert('삭제 실패: ' + error.message)
-        } else {
-            navigate('/admin')
-        }
-    }
 
     // Expense Form State
     const [expenseData, setExpenseData] = useState({
